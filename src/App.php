@@ -18,6 +18,13 @@ class App
     use ContainerTrait;
 
     /**
+     * Path to the application routes file
+     *
+     * @var
+     */
+    private $routes_path;
+
+    /**
      * Bootrstrap the application
      *
      * @return $this
@@ -27,6 +34,13 @@ class App
         $this
             ->makeConnections()
             ->setRoutes();
+
+        return $this;
+    }
+
+    public function setRoutesPath($path)
+    {
+        $this->routes_path = $path;
 
         return $this;
     }
@@ -56,12 +70,18 @@ class App
         $request = Request::createFromGlobals();
         $path = rtrim($request->getPathInfo(), '/');
 
+        $app_dir = $request->server->get('DOCUMENT_ROOT') . '/../';
+
+        if (!is_file($this->routes_path . '/routes.php') && is_file($app_dir . '/routes.php')) {
+            $this->routes_path = $app_dir;
+        }
+
         // Create the router object
         $router = new RouteCollection();
         $router->setStrategy(new UriStrategy);
 
         // Import the routes
-        require_once('Routes.php');
+        require_once($this->routes_path . '/routes.php');
         $dispatcher = $router->getDispatcher();
 
         // Dispatch a route
