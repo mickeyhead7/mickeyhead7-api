@@ -70,8 +70,8 @@ class App
         $request = Request::createFromGlobals();
         $path = rtrim($request->getPathInfo(), '/');
 
+        // Test for passed routes.php and app root fallback
         $app_dir = $request->server->get('DOCUMENT_ROOT') . '/../';
-
         if (!is_file($this->routes_path . '/routes.php') && is_file($app_dir . '/routes.php')) {
             $this->routes_path = $app_dir;
         }
