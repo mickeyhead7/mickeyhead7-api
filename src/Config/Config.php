@@ -17,15 +17,21 @@ class Config
     public function __construct()
     {
         // Scan the config directory for configurations
-        $directory = __DIR__ . '/../../config';
         $request = Request::createFromGlobals();
-        $root_path = $request->server->get('DOCUMENT_ROOT');
+        $base_dir = __DIR__ . '/../../config';
+        $app_dir = $request->server->get('DOCUMENT_ROOT') . '/../config';
 
-        foreach (scandir($directory) as $file) {
-            if (is_file($directory . '/' . $file) && is_file($root_path . '/../config/' . $file)) {
-                $this->set(basename($file, '.php'), require($root_path . '/../config/' . $file));
-            } elseif (is_file($directory . '/' . $file)) {
-                $this->set(basename($file, '.php'), require($directory . '/' . $file));
+        // Set the base settings
+        foreach (scandir($base_dir) as $file) {
+            if (is_file($base_dir . '/' . $file)) {
+                $this->set(basename($file, '.php'), require($base_dir . '/' . $file));
+            }
+        }
+
+        // Get any overrides and custom config
+        foreach (scandir($app_dir) as $file) {
+            if (is_file($app_dir . '/' . $file)) {
+                $this->set(basename($file, '.php'), require($app_dir . '/' . $file));
             }
         }
     }
