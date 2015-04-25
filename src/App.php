@@ -1,6 +1,6 @@
 <?php
 
-namespace Api;
+namespace Responsible\Api;
 
 use \Symfony\Component\HttpFoundation\Request;
 use \League\Route\Strategy\UriStrategy;
