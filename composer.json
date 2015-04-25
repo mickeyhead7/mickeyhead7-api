@@ -1,0 +1,32 @@
+{
+    "name": "responsible/api",
+    "description": "Responsible Web Designer API component.",
+    "keywords": [
+        "responsiblewebdesigner",
+        "api",
+        "data",
+        "json",
+        "rest"
+    ],
+    "homepage": "http://responsiblewebdesigner.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mark Head",
+            "email": "mark@responsiblewebdesigner.com",
+            "homepage": "http://responsiblewebdesigner.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "symfony/http-foundation": "~2.6"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Responsible\\Api\\": "src"
+        }
+    }
+}
