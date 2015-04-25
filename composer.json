@@ -20,7 +20,12 @@
     ],
     "require": {
         "php": ">=5.3",
-        "symfony/http-foundation": "~2.6"
+        "league/container": "~1.0",
+        "league/route": "~1.0",
+        "league/url": "~3.3",
+        "illuminate/database": "4.2.16",
+        "symfony/http-foundation": "~2.6",
+        "responsible/rsvp": "git@github.com:mickeyhead7/responsible.rsvp.git#v0.0.1"
     },
     "require-dev": {
     },
