@@ -25,7 +25,7 @@
         "league/url": "~3.3",
         "illuminate/database": "4.2.16",
         "symfony/http-foundation": "~2.6",
-        "responsible/rsvp": "git@github.com:mickeyhead7/responsible.rsvp.git#v0.0.1"
+        "responsible/rsvp": "v0.0.1"
     },
     "require-dev": {
     },
