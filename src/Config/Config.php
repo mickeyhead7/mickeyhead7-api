@@ -2,6 +2,8 @@
 
 namespace Responsible\Api\Config;
 
+use \Symfony\Component\HttpFoundation\Request;
+
 class Config
 {
 
@@ -16,9 +18,13 @@ class Config
     {
         // Scan the config directory for configurations
         $directory = __DIR__ . '/../../config';
+        $request = Request::createFromGlobals();
+        $root_path = $request->server->get('DOCUMENT_ROOT');
 
         foreach (scandir($directory) as $file) {
-            if (is_file($directory . '/' . $file)) {
+            if (is_file($directory . '/' . $file) && is_file($root_path . '/../config/' . $file)) {
+                $this->set(basename($file, '.php'), require($root_path . '/../config/' . $file));
+            } elseif (is_file($directory . '/' . $file)) {
                 $this->set(basename($file, '.php'), require($directory . '/' . $file));
             }
         }
