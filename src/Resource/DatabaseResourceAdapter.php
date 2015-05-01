@@ -19,7 +19,7 @@ class DatabaseResourceAdapter extends ResourceAdapterAbstract implements Resourc
         // Some defaults
         $limit = 0;
         $page = 1;
-        $ordering = 'id';
+        $sort = 'id';
         $direction = 'asc';
 
         // Process default scopes
@@ -31,11 +31,13 @@ class DatabaseResourceAdapter extends ResourceAdapterAbstract implements Resourc
             } elseif ($key === 'page') {
                 $page = $value;
                 continue;
-            } elseif ($key === 'ordering') {
-                $ordering = strpos($value, '.') ? $value : $model->getTable().'.'.$value;
+            } elseif ($key === 'sort') {
+                $sort = strpos($value, '.') ? $value : $model->getTable().'.'.$value;
                 continue;
             } elseif ($key === 'direction') {
                 $direction = $value;
+                continue;
+            } elseif ($key === 'includes') {
                 continue;
             }
 
@@ -46,7 +48,7 @@ class DatabaseResourceAdapter extends ResourceAdapterAbstract implements Resourc
         }
 
         $data = $model
-            ->orderBy($ordering, $direction)
+            ->orderBy($sort, $direction)
             ->skip(($page - 1) * $limit)
             ->take($limit)
             ->get();
@@ -66,7 +68,7 @@ class DatabaseResourceAdapter extends ResourceAdapterAbstract implements Resourc
         // Process default scopes
         foreach($scope->getData() as $key => $value) {
 
-            if ($key === 'limit' || $key === 'page' || $key === 'ordering'|| $key === 'direction') {
+            if ($key === 'limit' || $key === 'page' || $key === 'sort'|| $key === 'direction' || $key === 'includes') {
                 continue;
             }
 

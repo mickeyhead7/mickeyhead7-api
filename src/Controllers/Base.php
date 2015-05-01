@@ -5,6 +5,7 @@ namespace Responsible\Api\Controllers;
 use \Symfony\Component\HttpFoundation\JsonResponse;
 use \Responsible\Rsvp\Manager;
 use \Responsible\Api\Scope\Scope;
+use \Responsible\Api\Scope\IncludesScope;
 
 class Base
 {
@@ -28,6 +29,7 @@ class Base
     {
         $this
             ->setScope()
+            ->setIncludesScope()
             ->setResourceManager()
             ->setView();
     }
@@ -164,6 +166,28 @@ class Base
     public function getScope()
     {
         return $this->getContainerItem('Scope');
+    }
+
+    /**
+     * Set the appropriate query scope and place it in the container instance
+     *
+     * @return $this
+     */
+    public function setIncludesScope()
+    {
+        $this->setContainerItem('IncludesScope', new IncludesScope());
+
+        return $this;
+    }
+
+    /**
+     * Get the query scope from the container
+     *
+     * @return mixed|null|object
+     */
+    public function getIncludesScope()
+    {
+        return $this->getContainerItem('IncludesScope');
     }
 
 }

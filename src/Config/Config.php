@@ -18,20 +18,12 @@ class Config
     {
         // Scan the config directory for configurations
         $request = Request::createFromGlobals();
-        $base_dir = __DIR__ . '/../../config';
-        $app_dir = $request->server->get('DOCUMENT_ROOT') . '/../config';
-
-        // Set the base settings
-        foreach (scandir($base_dir) as $file) {
-            if (is_file($base_dir . '/' . $file)) {
-                $this->set(basename($file, '.php'), require($base_dir . '/' . $file));
-            }
-        }
+        $dir = $request->server->get('DOCUMENT_ROOT') . '/../config';
 
         // Get any overrides and custom config
-        foreach (scandir($app_dir) as $file) {
-            if (is_file($app_dir . '/' . $file)) {
-                $this->set(basename($file, '.php'), require($app_dir . '/' . $file));
+        foreach (scandir($dir) as $file) {
+            if (is_file($dir . '/' . $file)) {
+                $this->set(basename($file, '.php'), require($dir . '/' . $file));
             }
         }
     }

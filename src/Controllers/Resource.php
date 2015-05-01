@@ -4,6 +4,7 @@ namespace Responsible\Api\Controllers;
 
 use \Responsible\Rsvp\Resource\Collection as ResourceCollection;
 use \Responsible\Rsvp\Resource\Item as ResourceItem;
+use \Responsible\Rsvp\IncludeParams;
 use \Responsible\Api\Resource\Collection;
 use \Responsible\Api\Resource\Item;
 use \Responsible\Api\Pagination\Paginator;
@@ -23,6 +24,7 @@ class Resource extends Base
         $resource = new Collection($this->getModel(), $this->getResourceAdapter(), $this->getScope());
         $paginator = new Paginator($resource);
         $collection = new ResourceCollection($resource->getData(), $this->getTransformer());
+        $collection->setIncludes(new IncludeParams($this->getIncludesScope()->getData()));
         $collection->setPaginator($paginator);
         $manager = $this->getResourceManager();
         $manager->setResource($collection);
@@ -55,6 +57,7 @@ class Resource extends Base
         // Process the resource
         } else {
             $item = new ResourceItem($resource->getData(), $this->getTransformer());
+            $item->setIncludes(new IncludeParams($this->getIncludesScope()->getData()));
             $manager = $this->getResourceManager();
             $manager->setResource($item);
 

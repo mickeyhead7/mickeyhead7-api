@@ -68,7 +68,11 @@ class App
     {
         // Create a request object from the $_REQUEST globals
         $request = Request::createFromGlobals();
-        $path = rtrim($request->getPathInfo(), '/');
+        $path = $request->getPathInfo();
+
+        if ($path != '/') {
+            $path = rtrim($request->getPathInfo(), '/');
+        }
 
         // Test for passed routes.php and app root fallback
         $app_dir = $request->server->get('DOCUMENT_ROOT') . '/../routes';

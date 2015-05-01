@@ -75,14 +75,11 @@ class Collection extends ResourceAbstract
      */
     public function setPagination()
     {
-        $config = new Config();
-        $url = Url::createFromServer($_SERVER);
-        $query = $url->getQuery()->toArray();
         $total = $this->getAdapter()->getTotal($this->scope);
 
         // Use config defaults if not set in the request
-        $page = isset($query['page']) ? $query['page'] : $config->get('scope')['page']['default'];
-        $limit = isset($query['limit']) ? $query['limit'] : $config->get('scope')['limit']['default'];
+        $page = $this->getScope()->get('page');
+        $limit = $this->getScope()->get('limit');
 
         // Set pagination
         $pagination = $this->pagination;
@@ -133,12 +130,11 @@ class Collection extends ResourceAbstract
      */
     protected function getFirst()
     {
-        $config = new Config();
         $url = Url::createFromServer($_SERVER);
         $query = $url->getQuery()->toArray();
 
         // Use config defaults if not set in the request
-        $page = isset($query['page']) ? $query['page'] : $config->get('scope')['page']['default'];
+        $page = $this->getScope()->get('page');
 
         // First
         if ($page > 1) {
@@ -159,12 +155,11 @@ class Collection extends ResourceAbstract
      */
     protected function getPrevious()
     {
-        $config = new Config();
         $url = Url::createFromServer($_SERVER);
         $query = $url->getQuery()->toArray();
 
         // Use config defaults if not set in the request
-        $page = isset($query['page']) ? $query['page'] : $config->get('scope')['page']['default'];
+        $page = $this->getScope()->get('page');
 
         if ($page > 1) {
             $url->setPath($this->getPath());
@@ -184,14 +179,13 @@ class Collection extends ResourceAbstract
      */
     protected function getNext()
     {
-        $config = new Config();
         $url = Url::createFromServer($_SERVER);
         $query = $url->getQuery()->toArray();
         $total = $this->getAdapter()->getTotal($this->scope);
 
         // Use config defaults if not set in the request
-        $page = isset($query['page']) ? $query['page'] : $config->get('scope')['page']['default'];
-        $limit = isset($query['limit']) ? $query['limit'] : $config->get('scope')['limit']['default'];
+        $page = $this->getScope()->get('page');
+        $limit = $this->getScope()->get('limit');
 
         if ($page < ceil($total / $limit)) {
             $url->setPath($this->getPath());
@@ -211,14 +205,13 @@ class Collection extends ResourceAbstract
      */
     protected function getLast()
     {
-        $config = new Config();
         $url = Url::createFromServer($_SERVER);
         $query = $url->getQuery()->toArray();
         $total = $this->getAdapter()->getTotal($this->scope);
 
         // Use config defaults if not set in the request
-        $page = isset($query['page']) ? $query['page'] : $config->get('scope')['page']['default'];
-        $limit = isset($query['limit']) ? $query['limit'] : $config->get('scope')['limit']['default'];
+        $page = $this->getScope()->get('page');
+        $limit = $this->getScope()->get('limit');
 
         if ($page < ceil($total / $limit)) {
             $url->setPath($this->getPath());
