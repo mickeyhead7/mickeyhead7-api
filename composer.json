@@ -25,7 +25,7 @@
         "league/url": "~3.3",
         "illuminate/database": "4.2.16",
         "symfony/http-foundation": "~2.6",
-        "responsible/rsvp": "v0.0.3"
+        "responsible/rsvp": "v0.0.4"
     },
     "require-dev": {
     },
