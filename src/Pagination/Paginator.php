@@ -1,8 +1,8 @@
 <?php
 
-namespace Responsible\Api\Pagination;
+namespace Mickeyhead7\Api\Pagination;
 
-use \Responsible\Rsvp\Pagination\PaginatorInterface;
+use \Mickeyhead7\Rsvp\Pagination\PaginatorInterface;
 use \League\Url\Url;
 
 class Paginator implements PaginatorInterface
@@ -13,9 +13,9 @@ class Paginator implements PaginatorInterface
     /**
      * Constructor
      *
-     * @param \Responsible\Api\Resource\ResourceAbstract $resource
+     * @param \Mickeyhead7\Api\Resource\ResourceAbstract $resource
      */
-    public function __construct(\Responsible\Api\Resource\ResourceAbstract $resource)
+    public function __construct(\Mickeyhead7\Api\Resource\ResourceAbstract $resource)
     {
         $this->resource = $resource;
     }

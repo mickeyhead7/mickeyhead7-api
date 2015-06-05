@@ -1,6 +1,6 @@
 <?php
 
-namespace Responsible\Api\ConnectionManager;
+namespace Mickeyhead7\Api\ConnectionManager;
 
 interface ConnectionInterface
 {

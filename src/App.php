@@ -1,13 +1,13 @@
 <?php
 
-namespace Responsible\Api;
+namespace Mickeyhead7\Api;
 
 use \Symfony\Component\HttpFoundation\Request;
 use \League\Route\Strategy\UriStrategy;
 use \League\Route\RouteCollection;
-use \Responsible\Api\Container\ContainerTrait;
-use \Responsible\Api\ConnectionManager\Database;
-use \Responsible\Api\Response\NotFound as ResponseNotFound;
+use \Mickeyhead7\Api\Container\ContainerTrait;
+use \Mickeyhead7\Api\ConnectionManager\Database;
+use \Mickeyhead7\Api\Response\NotFound as ResponseNotFound;
 
 class App
 {
@@ -16,6 +16,20 @@ class App
      * Use the container trait for access to a container
      */
     use ContainerTrait;
+
+    /**
+     * Current request object
+     *
+     * @var
+     */
+    protected $request;
+
+    /**
+     * Path to the application .env file
+     *
+     * @var
+     */
+    private $env_path;
 
     /**
      * Path to the application routes file
@@ -32,12 +46,91 @@ class App
     public function bootstrap()
     {
         $this
+            ->loadRequest()
+            ->parseEnv()
+            ->setEnvironment()
             ->makeConnections()
             ->setRoutes();
 
         return $this;
     }
 
+    /**
+     * Loads the global request object
+     *
+     * @return $this
+     */
+    public function loadRequest()
+    {
+        $this->request = Request::createFromGlobals();
+
+        return $this;
+    }
+
+    /**
+     * Enable the setting of the path to the .env file
+     *
+     * @param $path
+     * @return $this
+     */
+    public function setEnvPath($path)
+    {
+        $this->env_path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Loads environment settings
+     *
+     * @return $this
+     */
+    public function parseEnv()
+    {
+        // Test for passed routes.php and app root fallback
+        $app_dir = $this->request->server->get('DOCUMENT_ROOT') . '/../';
+        if (!is_file($this->env_path . '/routes.php') && is_file($app_dir . '/.env')) {
+            $this->env_path = $app_dir;
+        }
+
+        // Load the .env file
+        \Dotenv::load($this->env_path);
+
+        return $this;
+    }
+
+    /**
+     * Set's the environment
+     *
+     * @return $this
+     */
+    public function setEnvironment()
+    {
+        // Always enable error reporting
+        error_reporting(E_ALL);
+
+        switch (getenv('ENVIRONMENT'))
+        {
+
+            case 'development' :
+                ini_set('display_errors', 1);
+                break;
+
+            case 'production' :
+                ini_set('display_errors', 0);
+                break;
+
+        }
+
+        return $this;
+    }
+
+    /**
+     * Enable the setting of the path to the routes file
+     *
+     * @param $path
+     * @return $this
+     */
     public function setRoutesPath($path)
     {
         $this->routes_path = $path;
@@ -66,16 +159,15 @@ class App
      */
     public function setRoutes()
     {
-        // Create a request object from the $_REQUEST globals
-        $request = Request::createFromGlobals();
-        $path = $request->getPathInfo();
+        // Get the current route path
+        $path = $this->request->getPathInfo();
 
         if ($path != '/') {
-            $path = rtrim($request->getPathInfo(), '/');
+            $path = rtrim($this->request->getPathInfo(), '/');
         }
 
         // Test for passed routes.php and app root fallback
-        $app_dir = $request->server->get('DOCUMENT_ROOT') . '/../routes';
+        $app_dir = $this->request->server->get('DOCUMENT_ROOT') . '/../routes';
         if (!is_file($this->routes_path . '/routes.php') && is_file($app_dir . '/routes.php')) {
             $this->routes_path = $app_dir;
         }
@@ -90,7 +182,7 @@ class App
 
         // Dispatch a route
         try {
-            $response = $dispatcher->dispatch($request->getMethod(), $path);
+            $response = $dispatcher->dispatch($this->request->getMethod(), $path);
             $response->send();
 
         // No route found

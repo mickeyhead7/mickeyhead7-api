@@ -1,11 +1,11 @@
 <?php
 
-namespace Responsible\Api\Controllers;
+namespace Mickeyhead7\Api\Controllers;
 
 use \Symfony\Component\HttpFoundation\JsonResponse;
-use \Responsible\Rsvp\Manager;
-use \Responsible\Api\Scope\Scope;
-use \Responsible\Api\Scope\IncludesScope;
+use \Mickeyhead7\Rsvp\Manager;
+use \Mickeyhead7\Api\Scope\Scope;
+use \Mickeyhead7\Api\Scope\IncludesScope;
 
 class Base
 {
@@ -13,7 +13,7 @@ class Base
     /**
      * Use the container trait
      */
-    use \Responsible\Api\Container\ContainerTrait;
+    use \Mickeyhead7\Api\Container\ContainerTrait;
 
     /**
      * Set default allowed scopes
@@ -152,7 +152,8 @@ class Base
      */
     public function setScope()
     {
-        $scope = new Scope($this->allowed_scopes);
+        $scope = Scope::createFromConfig();
+        $scope->setData($this->allowed_scopes);
         $this->setContainerItem('Scope', $scope);
 
         return $this;

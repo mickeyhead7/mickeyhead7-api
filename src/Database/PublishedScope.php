@@ -1,6 +1,6 @@
 <?php
 
-namespace Responsible\Api\Database;
+namespace Mickeyhead7\Api\Database;
 
 use \Illuminate\Database\Query\Builder as BaseBuilder;
 use \Illuminate\Database\Eloquent\Builder;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Responsible\Api\Resource;
+namespace Mickeyhead7\Api\Resource;
 
 use \League\Url\Url;
-use \Responsible\Api\Config\Config;
+use \Mickeyhead7\Api\Config\Config;
 
 class Collection extends ResourceAbstract
 {
@@ -18,18 +18,18 @@ class Collection extends ResourceAbstract
     /**
      * Scope object
      *
-     * @var \Responsible\Api\Scope\Scope
+     * @var \Mickeyhead7\Api\Scope\Scope
      */
     private $scope;
 
     /**
      * Constructor
      *
-     * @param \Responsible\Api\Models\ModelInterface $model
+     * @param \Mickeyhead7\Api\Models\ModelInterface $model
      * @param ResourceAdapterInterface $adapter
-     * @param \Responsible\Api\Scope\Scope $scope
+     * @param \Mickeyhead7\Api\Scope\Scope $scope
      */
-    public function __construct($model, $adapter, \Responsible\Api\Scope\Scope $scope = null)
+    public function __construct($model, $adapter, \Mickeyhead7\Api\Scope\Scope $scope = null)
     {
         parent::__construct($model, $adapter);
 
@@ -61,7 +61,7 @@ class Collection extends ResourceAbstract
     /**
      * Get the scope object
      *
-     * @return \Responsible\Api\Scope\Scope
+     * @return \Mickeyhead7\Api\Scope\Scope
      */
     public function getScope()
     {

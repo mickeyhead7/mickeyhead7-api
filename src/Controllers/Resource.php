@@ -1,14 +1,14 @@
 <?php
 
-namespace Responsible\Api\Controllers;
+namespace Mickeyhead7\Api\Controllers;
 
-use \Responsible\Rsvp\Resource\Collection as ResourceCollection;
-use \Responsible\Rsvp\Resource\Item as ResourceItem;
-use \Responsible\Rsvp\IncludeParams;
-use \Responsible\Api\Resource\Collection;
-use \Responsible\Api\Resource\Item;
-use \Responsible\Api\Pagination\Paginator;
-use \Responsible\Api\Response\NotFound as ResponseNotFound;
+use \Mickeyhead7\Rsvp\Resource\Collection as ResourceCollection;
+use \Mickeyhead7\Rsvp\Resource\Item as ResourceItem;
+use \Mickeyhead7\Rsvp\IncludeParams;
+use \Mickeyhead7\Api\Resource\Collection;
+use \Mickeyhead7\Api\Resource\Item;
+use \Mickeyhead7\Api\Pagination\Paginator;
+use \Mickeyhead7\Api\Response\NotFound as ResponseNotFound;
 
 class Resource extends Base
 {
@@ -26,10 +26,11 @@ class Resource extends Base
         $collection = new ResourceCollection($resource->getData(), $this->getTransformer());
         $collection->setIncludes(new IncludeParams($this->getIncludesScope()->getData()));
         $collection->setPaginator($paginator);
+        $collection->setMeta(['pagination' => $resource->getPagination()]);
         $manager = $this->getResourceManager();
         $manager->setResource($collection);
 
-        return $this->getView()->setData($manager->getResponse())->send();
+        return $this->getView()->setData($manager->createResponse())->send();
     }
 
     /**
@@ -61,7 +62,7 @@ class Resource extends Base
             $manager = $this->getResourceManager();
             $manager->setResource($item);
 
-            return $this->getView()->setData($manager->getResponse())->send();
+            return $this->getView()->setData($manager->createResponse())->send();
         }
     }
 

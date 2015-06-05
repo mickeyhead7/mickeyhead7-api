@@ -1,6 +1,6 @@
 <?php
 
-namespace Responsible\Api\Resource;
+namespace Mickeyhead7\Api\Resource;
 
 abstract class ResourceAdapterAbstract
 {
@@ -15,10 +15,10 @@ abstract class ResourceAdapterAbstract
     /**
      * Set the data model
      *
-     * @param \Responsible\Api\Models\ModelInterface $model
+     * @param \Mickeyhead7\Api\Models\ModelInterface $model
      * @return $this
      */
-    public function setModel(\Responsible\Api\Models\ModelInterface $model)
+    public function setModel(\Mickeyhead7\Api\Models\ModelInterface $model)
     {
         $this->model = $model;
 

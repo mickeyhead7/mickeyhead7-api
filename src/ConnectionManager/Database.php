@@ -1,8 +1,8 @@
 <?php
 
-namespace Responsible\Api\ConnectionManager;
+namespace Mickeyhead7\Api\ConnectionManager;
 
-use \Responsible\Api\Config\Config;
+use \Mickeyhead7\Api\Config\Config;
 
 class Database implements ConnectionInterface
 {
@@ -15,9 +15,18 @@ class Database implements ConnectionInterface
     public function connect()
     {
         // Database
-        $config = new Config();
+        $connection = [
+            'driver'    => getenv('DB_DRIVER'),
+            'host'      => getenv('DB_HOST'),
+            'database'  => getenv('DB_NAME'),
+            'username'  => getenv('DB_USERNAME'),
+            'password'  => getenv('DB_PASSWORD'),
+            'charset'   => getenv('DB_CHARSET'),
+            'collation' => getenv('DB_COLLATION'),
+            'prefix'    => getenv('DB_PREFIX'),
+        ];
         $capsule = new \Illuminate\Database\Capsule\Manager();
-        $capsule->addConnection($config->get('database'));
+        $capsule->addConnection($connection);
         $capsule->setEventDispatcher(new \Illuminate\Events\Dispatcher(new \Illuminate\Container\Container));
         $capsule->setAsGlobal();
         $capsule->bootEloquent();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Responsible\Api\Database;
+namespace Mickeyhead7\Api\Database;
 
 trait PublishedTrait
 {

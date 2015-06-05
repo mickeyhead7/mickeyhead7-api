@@ -1,6 +1,6 @@
 <?php
 
-namespace Responsible\Api\Response;
+namespace Mickeyhead7\Api\Response;
 
 use \Symfony\Component\HttpFoundation\JsonResponse;
 

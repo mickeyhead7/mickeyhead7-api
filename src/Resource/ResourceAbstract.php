@@ -1,6 +1,6 @@
 <?php
 
-namespace Responsible\Api\Resource;
+namespace Mickeyhead7\Api\Resource;
 
 abstract class ResourceAbstract
 {
@@ -29,10 +29,10 @@ abstract class ResourceAbstract
     /**
      * Constructor
      *
-     * @param \Responsible\Api\Models\ModelInterface $model
+     * @param \Mickeyhead7\Api\Models\ModelInterface $model
      * @param ResourceAdapterInterface $adapter
      */
-    public function __construct(\Responsible\Api\Models\ModelInterface $model, \Responsible\Api\Resource\ResourceAdapterInterface $adapter)
+    public function __construct(\Mickeyhead7\Api\Models\ModelInterface $model, \Mickeyhead7\Api\Resource\ResourceAdapterInterface $adapter)
     {
         $this->adapter = $adapter;
         $this->adapter->setModel($model);

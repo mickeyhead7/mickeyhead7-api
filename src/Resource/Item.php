@@ -1,6 +1,6 @@
 <?php
 
-namespace Responsible\Api\Resource;
+namespace Mickeyhead7\Api\Resource;
 
 use \League\Url\Url;
 
@@ -10,7 +10,7 @@ class Item extends ResourceAbstract
     /**
      * Constructor
      *
-     * @param \Responsible\Api\Models\ModelInterface $model
+     * @param \Mickeyhead7\Api\Models\ModelInterface $model
      * @param ResourceAdapterInterface $adapter
      * @param $id
      */

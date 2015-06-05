@@ -1,20 +1,20 @@
 {
-    "name": "responsible/api",
+    "name": "mickeyhead7/api",
     "description": "Responsible Web Designer API component.",
     "keywords": [
-        "responsiblewebdesigner",
+        "mickeyhead7",
         "api",
         "data",
         "json",
         "rest"
     ],
-    "homepage": "http://responsiblewebdesigner.com/",
+    "homepage": "http://markhead.net",
     "license": "MIT",
     "authors": [
         {
             "name": "Mark Head",
-            "email": "mark@responsiblewebdesigner.com",
-            "homepage": "http://responsiblewebdesigner.com",
+            "email": "me@markhead.net",
+            "homepage": "http://markhead.net",
             "role": "Developer"
         }
     ],
@@ -25,14 +25,14 @@
         "league/url": "~3.3",
         "illuminate/database": "4.2.16",
         "symfony/http-foundation": "~2.6",
-        "responsible/rsvp": "v0.0.5",
+        "mickeyhead7/rsvp": "v0.0.5",
         "vlucas/phpdotenv": "~1.1"
     },
     "require-dev": {
     },
     "autoload": {
         "psr-4": {
-            "Responsible\\Api\\": "src"
+            "Mickeyhead7\\Api\\": "src"
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Responsible\Api\Container;
+namespace Mickeyhead7\Api\Container;
 
 use \League\Container\Container;
 

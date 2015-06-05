@@ -1,6 +1,6 @@
 <?php
 
-namespace Responsible\Api\Config;
+namespace Mickeyhead7\Api\Config;
 
 use \Symfony\Component\HttpFoundation\Request;
 
@@ -14,18 +14,44 @@ class Config
      */
     protected $data = [];
 
+    /**
+     * Path to the application config directory
+     *
+     * @var
+     */
+    protected $config_path;
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        // Scan the config directory for configurations
+        // Get the config path
         $request = Request::createFromGlobals();
-        $dir = $request->server->get('DOCUMENT_ROOT') . '/../config';
+        $app_dir = $request->server->get('DOCUMENT_ROOT') . '/../config';
+        if (!is_dir($this->config_path) && is_dir($app_dir)) {
+            $this->config_path = $app_dir;
+        }
 
         // Get any overrides and custom config
-        foreach (scandir($dir) as $file) {
-            if (is_file($dir . '/' . $file)) {
-                $this->set(basename($file, '.php'), require($dir . '/' . $file));
+        foreach (scandir($this->config_path) as $file) {
+            if (is_file($this->config_path . '/' . $file)) {
+                $this->set(basename($file, '.php'), require($this->config_path . '/' . $file));
             }
         }
+    }
+
+    /**
+     * Enable the setting of the path to the config directory
+     *
+     * @param $path
+     * @return $this
+     */
+    public function setConfigPath($path)
+    {
+        $this->config_path = $path;
+
+        return $this;
     }
 
     /**

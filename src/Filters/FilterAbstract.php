@@ -1,6 +1,6 @@
 <?php
 
-namespace Responsible\Api\Filters;
+namespace Mickeyhead7\Api\Filters;
 
 abstract class FilterAbstract
 {

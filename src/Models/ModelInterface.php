@@ -1,6 +1,6 @@
 <?php
 
-namespace Responsible\Api\Models;
+namespace Mickeyhead7\Api\Models;
 
 interface ModelInterface
 {

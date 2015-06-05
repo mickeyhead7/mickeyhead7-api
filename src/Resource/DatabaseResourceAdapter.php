@@ -1,6 +1,6 @@
 <?php
 
-namespace Responsible\Api\Resource;
+namespace Mickeyhead7\Api\Resource;
 
 class DatabaseResourceAdapter extends ResourceAdapterAbstract implements ResourceAdapterInterface
 {
@@ -8,11 +8,11 @@ class DatabaseResourceAdapter extends ResourceAdapterAbstract implements Resourc
     /**
      * Get a resource collection
      *
-     * @param \Responsible\Api\Scope\Scope $scope
+     * @param \Mickeyhead7\Api\Scope\Scope $scope
      * @param array $includes
      * @return mixed
      */
-    public function getCollection(\Responsible\Api\Scope\Scope $scope)
+    public function getCollection(\Mickeyhead7\Api\Scope\Scope $scope)
     {
         $model = $this->getModel();
 
@@ -47,8 +47,12 @@ class DatabaseResourceAdapter extends ResourceAdapterAbstract implements Resourc
             }
         }
 
+        if (method_exists($model, 'scopeSort'.ucfirst($sort))) {
+            $model->{'sort' . $sort}($direction);
+        }
+
         $data = $model
-            ->orderBy($sort, $direction)
+//            ->orderBy($sort, $direction)
             ->skip(($page - 1) * $limit)
             ->take($limit)
             ->get();
@@ -59,10 +63,10 @@ class DatabaseResourceAdapter extends ResourceAdapterAbstract implements Resourc
     /**
      * Get a total count of resources in a collection
      *
-     * @param \Responsible\Api\Scope\Scope $scope
+     * @param \Mickeyhead7\Api\Scope\Scope $scope
      * @return mixed
      */
-    public function getTotal(\Responsible\Api\Scope\Scope $scope) {
+    public function getTotal(\Mickeyhead7\Api\Scope\Scope $scope) {
         $model = $this->getModel();
 
         // Process default scopes
