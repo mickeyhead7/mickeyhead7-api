@@ -1,6 +1,6 @@
 {
     "name": "mickeyhead7/api",
-    "description": "Responsible Web Designer API component.",
+    "description": "Core components for building an API.",
     "keywords": [
         "mickeyhead7",
         "api",
@@ -8,7 +8,6 @@
         "json",
         "rest"
     ],
-    "homepage": "http://markhead.net",
     "license": "MIT",
     "authors": [
         {
@@ -25,7 +24,7 @@
         "league/url": "~3.3",
         "illuminate/database": "4.2.16",
         "symfony/http-foundation": "~2.6",
-        "mickeyhead7/rsvp": "v0.0.5",
+        "mickeyhead7/rsvp": "v0.0.7",
         "vlucas/phpdotenv": "~1.1"
     },
     "require-dev": {
