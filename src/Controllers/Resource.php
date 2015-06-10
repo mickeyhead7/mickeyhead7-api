@@ -24,7 +24,7 @@ class Resource extends Base
         $resource = new Collection($this->getModel(), $this->getResourceAdapter(), $this->getScope());
         $paginator = new Paginator($resource);
         $collection = new ResourceCollection($resource->getData(), $this->getTransformer());
-        $collection->setIncludes(new IncludeParams($this->getIncludesScope()->getData()));
+        $collection->setIncludes(explode(',', $this->getScope()->get('includes')));
         $collection->setPaginator($paginator);
         $collection->setMeta(['pagination' => $resource->getPagination()]);
         $manager = $this->getResourceManager();

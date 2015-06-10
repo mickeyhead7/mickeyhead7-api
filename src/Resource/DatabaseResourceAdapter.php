@@ -47,12 +47,12 @@ class DatabaseResourceAdapter extends ResourceAdapterAbstract implements Resourc
             }
         }
 
-        if (method_exists($model, 'scopeSort'.ucfirst($sort))) {
-            $model->{'sort' . $sort}($direction);
-        }
+//        if (method_exists($model, 'scopeSort'.ucfirst($sort))) {
+//            $model->{'sort' . $sort}($direction);
+//        }
 
         $data = $model
-//            ->orderBy($sort, $direction)
+            ->orderBy($sort, $direction)
             ->skip(($page - 1) * $limit)
             ->take($limit)
             ->get();
