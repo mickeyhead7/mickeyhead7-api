@@ -6,7 +6,6 @@ use \Symfony\Component\HttpFoundation\Request;
 use \League\Route\Strategy\UriStrategy;
 use \League\Route\RouteCollection;
 use \Mickeyhead7\Api\Container\ContainerTrait;
-use \Mickeyhead7\Api\ConnectionManager\Database;
 use \Mickeyhead7\Api\Response\NotFound as ResponseNotFound;
 
 class App
@@ -49,7 +48,6 @@ class App
             ->loadRequest()
             ->parseEnv()
             ->setEnvironment()
-            ->makeConnections()
             ->setRoutes();
 
         return $this;
@@ -89,7 +87,7 @@ class App
     {
         // Test for passed routes.php and app root fallback
         $app_dir = $this->request->server->get('DOCUMENT_ROOT') . '/../';
-        if (!is_file($this->env_path . '/routes.php') && is_file($app_dir . '/.env')) {
+        if (!is_file($this->env_path . '/.env') && is_file($app_dir . '/.env')) {
             $this->env_path = $app_dir;
         }
 
@@ -108,6 +106,10 @@ class App
     {
         // Always enable error reporting
         error_reporting(E_ALL);
+
+        // @todo Implement decent cross origin control
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Allow-Origin: http://localhost:3000');
 
         switch (getenv('ENVIRONMENT'))
         {
@@ -134,20 +136,6 @@ class App
     public function setRoutesPath($path)
     {
         $this->routes_path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Make any connections to data sources
-     *
-     * @return $this
-     */
-    public function makeConnections()
-    {
-        // Database connection
-        $database = new Database();
-        $database->connect();
 
         return $this;
     }

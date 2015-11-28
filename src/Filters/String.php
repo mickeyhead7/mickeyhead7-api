@@ -2,7 +2,7 @@
 
 namespace Mickeyhead7\Api\Filters;
 
-class String extends FilterAbstract
+class String implements FilterInterface
 {
 
     /**

@@ -16,19 +16,12 @@ class Base
     use \Mickeyhead7\Api\Container\ContainerTrait;
 
     /**
-     * Set default allowed scopes
-     *
-     * @var array
-     */
-    protected $allowed_scopes = [];
-
-    /**
      * Constructor
      */
     public function __construct()
     {
         $this
-            ->setScope()
+            ->setIncludesScope()
             ->setResourceManager()
             ->setView();
     }
@@ -149,11 +142,9 @@ class Base
      *
      * @return $this
      */
-    public function setScope()
+    public function setIncludesScope()
     {
-        $scope = Scope::createFromConfig();
-        $scope->setData($this->allowed_scopes);
-        $this->setContainerItem('Scope', $scope);
+        $this->setContainerItem('IncludesScope', IncludesScope::createFromGlobals());
 
         return $this;
     }
@@ -163,9 +154,9 @@ class Base
      *
      * @return mixed|null|object
      */
-    public function getScope()
+    public function getIncludesScope()
     {
-        return $this->getContainerItem('Scope');
+        return $this->getContainerItem('IncludesScope');
     }
 
 }

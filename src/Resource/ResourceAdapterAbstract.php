@@ -2,8 +2,41 @@
 
 namespace Mickeyhead7\Api\Resource;
 
+use \Mickeyhead7\Api\Scope\Scope;
+
 abstract class ResourceAdapterAbstract
 {
+    private $scope = [];
+
+    protected $filters = [
+        'limit' => [
+            'default' => 20,
+            'filter' => [
+                'type'      => 'integer',
+                'config'    => [
+                    'minimum' => 1
+                ]
+            ]
+        ],
+        'page' => [
+            'default'   => 1,
+            'filter'    => [
+                'type' => 'integer'
+            ]
+        ],
+        'sort' => [
+            'default'   => 'id.desc',
+            'filter'    => [
+                'type' => 'string'
+            ]
+        ],
+        'includes' => [
+            'default'   => null,
+            'filter'    => [
+                'type' => 'string'
+            ]
+        ],
+    ];
 
     /**
      * Data model
@@ -33,6 +66,30 @@ abstract class ResourceAdapterAbstract
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * Set the resource scope
+     *
+     * @return $this
+     */
+    public function setScope()
+    {
+        // Merge default scope filters with filters custom to the model
+        $this->scope = new Scope();
+        $this->scope->setDataFromGlobals(array_merge($this->filters, $this->getModel()->filters));
+
+        return $this;
+    }
+
+    /**
+     * Get the resource scope
+     *
+     * @return array
+     */
+    public function getScope()
+    {
+        return $this->scope;
     }
 
 }

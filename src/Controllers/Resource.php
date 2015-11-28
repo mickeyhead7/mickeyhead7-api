@@ -21,10 +21,10 @@ class Resource extends Base
     public function index()
     {
         // Create a new resource collection
-        $resource = new Collection($this->getModel(), $this->getResourceAdapter(), $this->getScope());
+        $resource = new Collection($this->getModel(), $this->getResourceAdapter());
         $paginator = new Paginator($resource);
         $collection = new ResourceCollection($resource->getData(), $this->getTransformer());
-        $collection->setIncludes(explode(',', $this->getScope()->get('includes')));
+        $collection->setIncludeParams(new IncludeParams($this->getIncludesScope()->getData()));
         $collection->setPaginator($paginator);
         $collection->setMeta(['pagination' => $resource->getPagination()]);
         $manager = $this->getResourceManager();
@@ -55,15 +55,15 @@ class Resource extends Base
 
             return $response->send();
 
-        // Process the resource
-        } else {
-            $item = new ResourceItem($resource->getData(), $this->getTransformer());
-            $item->setIncludes(new IncludeParams($this->getIncludesScope()->getData()));
-            $manager = $this->getResourceManager();
-            $manager->setResource($item);
-
-            return $this->getView()->setData($manager->createResponse())->send();
         }
+
+        // Process the resource
+        $item = new ResourceItem($resource->getData(), $this->getTransformer());
+        $item->setIncludeParams(new IncludeParams($this->getIncludesScope()->getData()));
+        $manager = $this->getResourceManager();
+        $manager->setResource($item);
+
+        return $this->getView()->setData($manager->createResponse())->send();
     }
 
 }

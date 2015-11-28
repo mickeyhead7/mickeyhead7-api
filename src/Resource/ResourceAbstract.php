@@ -2,6 +2,8 @@
 
 namespace Mickeyhead7\Api\Resource;
 
+use \Mickeyhead7\Api\Models\ModelInterface;
+
 abstract class ResourceAbstract
 {
 
@@ -29,14 +31,31 @@ abstract class ResourceAbstract
     /**
      * Constructor
      *
-     * @param \Mickeyhead7\Api\Models\ModelInterface $model
+     * @param ModelInterface $model
      * @param ResourceAdapterInterface $adapter
      */
-    public function __construct(\Mickeyhead7\Api\Models\ModelInterface $model, \Mickeyhead7\Api\Resource\ResourceAdapterInterface $adapter)
+    public function __construct(ModelInterface $model, ResourceAdapterInterface $adapter, $id = null)
     {
+        // Set the URI path
+        $this->setPath();
+
+        // Store any item identifier for a singular resource
+        if ($id) {
+            $this->id = $id;
+        }
+
+        // Set the resource adapter
         $this->adapter = $adapter;
-        $this->adapter->setModel($model);
+        $this->adapter
+            ->setModel($model)
+            ->setScope()
+            ->connect();
+
+        // Get and store the data
+        $this->setData();
     }
+
+    abstract public function setPath();
 
     /**
      * Get the URL path section
@@ -57,6 +76,8 @@ abstract class ResourceAbstract
     {
         return $this->adapter;
     }
+
+    abstract public function setData();
 
     /**
      * Get the resource data

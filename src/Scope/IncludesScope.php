@@ -15,21 +15,29 @@ class IncludesScope
     protected $data;
 
     /**
-     * Constructor
+     * Create an instance from GLOBALS
+     *
+     * @return IncludesScope
+     * @throws ScopeException
      */
-    public function __construct()
+    public static function createFromGlobals()
     {
-        $this->setData();
+        $instance = new self();
+        $data = $instance->getGlobalData();
+        $instance->setData($data);
+
+        return $instance;
     }
 
     /**
-     * Set the include scope data
+     * Get includes information from GLOBALS
      *
-     * @return $this
+     * @return array
+     * @throws ScopeException
      */
-    public function setData()
+    public function getGlobalData()
     {
-        $this->data = [];
+        $data = [];
 
         // Get the include querystring parameter
         $query = Request::createFromGlobals()->query->get('includes');
@@ -45,15 +53,28 @@ class IncludesScope
             // Parse any parameters passed to the include
             $params = explode(':', $include);
             $key = array_shift($params);
-            $this->data[$key] = [];
+            $data[$key] = [];
 
             // Break up each parameter and pass to the include key
             foreach ($params as $param) {
                 preg_match('/([\w]+)\(([^\)]+)\)/', $param, $matches);
                 array_shift($matches);
-                $this->data[$key][$matches[0]] = $matches[1];
+                $data[$key][$matches[0]] = $matches[1];
             }
         }
+
+        return $data;
+    }
+
+    /**
+     * Set the include scope data
+     *
+     * @param $data
+     * @return $this
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
 
         return $this;
     }

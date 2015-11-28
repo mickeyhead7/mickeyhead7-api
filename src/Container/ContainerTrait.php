@@ -30,7 +30,7 @@ trait ContainerTrait
      * @param $object
      * @return $this
      */
-    private function setContainerItem($key, $object)
+    public function setContainerItem($key, $object)
     {
         $container = $this->getContainer();
         $container->add($key, $object);

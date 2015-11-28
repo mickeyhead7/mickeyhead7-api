@@ -2,7 +2,7 @@
 
 namespace Mickeyhead7\Api\Filters;
 
-class Integer implements FilterInterface
+class Float implements FilterInterface
 {
 
     /**
@@ -14,7 +14,7 @@ class Integer implements FilterInterface
      */
     public function sanitize($value, Array $config = [])
     {
-        $value = filter_var($value, FILTER_SANITIZE_NUMBER_INT);
+        $value = filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT);
 
         // Minimum
         if (isset($config['min']) && $value < (int) $config['min']) {
@@ -26,7 +26,7 @@ class Integer implements FilterInterface
             $value = (int) $config['max'];
         }
 
-        return (int) $value;
+        return (float) $value;
     }
 
     /**
@@ -38,7 +38,7 @@ class Integer implements FilterInterface
      */
     public function validate($value, Array $config)
     {
-        $result = filter_var($value, FILTER_VALIDATE_INT);
+        $result = filter_var($value, FILTER_VALIDATE_FLOAT);
 
         // Minimum
         if (isset($config['min']) && $value < (int) $config['min']) {

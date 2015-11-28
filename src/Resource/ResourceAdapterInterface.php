@@ -6,21 +6,32 @@ interface ResourceAdapterInterface
 {
 
     /**
-     * Get a resource collection
+     * Connect to a data storage source
      *
-     * @param \Mickeyhead7\Api\Scope\Scope $scope
-     * @param array $includes
      * @return mixed
      */
-    public function getCollection(\Mickeyhead7\Api\Scope\Scope $scope);
+    public function connect();
+
+    /**
+     * Get a resource collection
+     *
+     * @return mixed
+     */
+    public function getCollection();
+
+    /**
+     * Gets the allowed data model scope
+     *
+     * @return mixed
+     */
+    public function getScope();
 
     /**
      * Get a total count of resources in a collection
      *
-     * @param \Mickeyhead7\Api\Scope\Scope $scope
      * @return mixed
      */
-    public function getTotal(\Mickeyhead7\Api\Scope\Scope $scope);
+    public function getTotal();
 
     /**
      * Get a resource item

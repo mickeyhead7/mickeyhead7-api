@@ -8,18 +8,15 @@ class Item extends ResourceAbstract
 {
 
     /**
-     * Constructor
+     * Set the data object
      *
-     * @param \Mickeyhead7\Api\Models\ModelInterface $model
-     * @param ResourceAdapterInterface $adapter
-     * @param $id
+     * @return $this
      */
-    public function __construct($model, $adapter, $id)
+    public function setData()
     {
-        parent::__construct($model, $adapter);
+        $this->data = $this->getAdapter()->getItem($this->id);
 
-        $this->setPath();
-        $this->data = $this->getAdapter()->getItem($id);
+        return $this;
     }
 
     /**

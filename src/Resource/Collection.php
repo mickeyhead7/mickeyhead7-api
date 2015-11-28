@@ -3,7 +3,6 @@
 namespace Mickeyhead7\Api\Resource;
 
 use \League\Url\Url;
-use \Mickeyhead7\Api\Config\Config;
 
 class Collection extends ResourceAbstract
 {
@@ -16,27 +15,16 @@ class Collection extends ResourceAbstract
     protected $pagination = [];
 
     /**
-     * Scope object
+     * Set the data object
      *
-     * @var \Mickeyhead7\Api\Scope\Scope
+     * @return $this
      */
-    private $scope;
-
-    /**
-     * Constructor
-     *
-     * @param \Mickeyhead7\Api\Models\ModelInterface $model
-     * @param ResourceAdapterInterface $adapter
-     * @param \Mickeyhead7\Api\Scope\Scope $scope
-     */
-    public function __construct($model, $adapter, \Mickeyhead7\Api\Scope\Scope $scope = null)
+    public function setData()
     {
-        parent::__construct($model, $adapter);
-
-        $this->setPath();
-        $this->scope = $scope;
-        $this->data = $adapter->getCollection($scope);
+        $this->data = $this->getAdapter()->getCollection();
         $this->setPagination();
+
+        return $this;
     }
 
     /**
@@ -59,27 +47,18 @@ class Collection extends ResourceAbstract
     }
 
     /**
-     * Get the scope object
-     *
-     * @return \Mickeyhead7\Api\Scope\Scope
-     */
-    public function getScope()
-    {
-        return $this->scope;
-    }
-
-    /**
      * Set the pagination data
      *
      * @return $this
      */
     public function setPagination()
     {
-        $total = $this->getAdapter()->getTotal($this->scope);
+        $scope = $this->getAdapter()->getScope();
+        $total = $this->getAdapter()->getTotal();
 
         // Use config defaults if not set in the request
-        $page = $this->getScope()->get('page');
-        $limit = $this->getScope()->get('limit');
+        $page = $scope->get('page');
+        $limit = $scope->get('limit');
 
         // Set pagination
         $pagination = $this->pagination;
@@ -130,11 +109,12 @@ class Collection extends ResourceAbstract
      */
     protected function getFirst()
     {
+        $scope = $this->getAdapter()->getScope();
         $url = Url::createFromServer($_SERVER);
         $query = $url->getQuery()->toArray();
 
         // Use config defaults if not set in the request
-        $page = $this->getScope()->get('page');
+        $page = $scope->get('page');
 
         // First
         if ($page > 1) {
@@ -155,11 +135,12 @@ class Collection extends ResourceAbstract
      */
     protected function getPrevious()
     {
+        $scope = $this->getAdapter()->getScope();
         $url = Url::createFromServer($_SERVER);
         $query = $url->getQuery()->toArray();
 
         // Use config defaults if not set in the request
-        $page = $this->getScope()->get('page');
+        $page = $scope->get('page');
 
         if ($page > 1) {
             $url->setPath($this->getPath());
@@ -179,13 +160,14 @@ class Collection extends ResourceAbstract
      */
     protected function getNext()
     {
+        $scope = $this->getAdapter()->getScope();
         $url = Url::createFromServer($_SERVER);
         $query = $url->getQuery()->toArray();
-        $total = $this->getAdapter()->getTotal($this->scope);
+        $total = $this->getAdapter()->getTotal();
 
         // Use config defaults if not set in the request
-        $page = $this->getScope()->get('page');
-        $limit = $this->getScope()->get('limit');
+        $page = $scope->get('page');
+        $limit = $scope->get('limit');
 
         if ($page < ceil($total / $limit)) {
             $url->setPath($this->getPath());
@@ -205,13 +187,14 @@ class Collection extends ResourceAbstract
      */
     protected function getLast()
     {
+        $scope = $this->getAdapter()->getScope();
         $url = Url::createFromServer($_SERVER);
         $query = $url->getQuery()->toArray();
-        $total = $this->getAdapter()->getTotal($this->scope);
+        $total = $this->getAdapter()->getTotal();
 
         // Use config defaults if not set in the request
-        $page = $this->getScope()->get('page');
-        $limit = $this->getScope()->get('limit');
+        $page = $scope->get('page');
+        $limit = $scope->get('limit');
 
         if ($page < ceil($total / $limit)) {
             $url->setPath($this->getPath());

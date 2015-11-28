@@ -3,7 +3,7 @@
 namespace Mickeyhead7\Api\Scope;
 
 use \Symfony\Component\HttpFoundation\Request;
-use \Mickeyhead7\Api\Config\Config;
+use \Mickeyhead7\Api\Filters\Factory as FilterFactory;
 
 class Scope
 {
@@ -16,39 +16,36 @@ class Scope
     protected $data = [];
 
     /**
-     * Creates a Scope instance from a Config object
+     * Set the scope data from GLOBALS
      *
-     * @return Scope
+     * @param array $scopes
+     * @return $this
      */
-    public static function createFromConfig()
+    public function setDataFromGlobals(Array $scopes)
     {
-        $config = new Config();
-        $instance = new self();
-        $instance->setData($config->get('scope'));
-
-        return $instance;
+        $query = Request::createFromGlobals()->query->all();
+        $this->setData($scopes, $query);
+        return $this;
     }
 
     /**
-     * Sets the scope data
+     * Set the scope data
      *
      * @param array $allowed_scopes
      * @return $this
      */
-    public function setData(Array $scopes)
+    public function setData(Array $scopes, $data = [])
     {
-        $query = Request::createFromGlobals()->query->all();
-
         foreach($scopes as $key => $config) {
-            if(isset($query[$key])) {
-                $value = $query[$key];
+            if(isset($data[$key])) {
+                $value = $data[$key];
             } else {
                 $value = isset($config['default']) ? $config['default'] : null;
             }
 
-            $class = '\Mickeyhead7\Api\Filters\\'.ucfirst($config['filter']['type']);
-            $filter = new $class();
-            $this->data[$key] = $filter->sanitize($value, []);
+            // Filter the value
+            $filter = new FilterFactory($config['filter']['type'], $value);
+            $this->data[$key] = $filter->sanitize();
         }
 
         return $this;
