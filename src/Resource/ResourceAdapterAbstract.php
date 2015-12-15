@@ -3,6 +3,7 @@
 namespace Mickeyhead7\Api\Resource;
 
 use \Mickeyhead7\Api\Scope\Scope;
+use \Mickeyhead7\Api\Models\ModelInterface;
 
 abstract class ResourceAdapterAbstract
 {
@@ -51,7 +52,7 @@ abstract class ResourceAdapterAbstract
      * @param \Mickeyhead7\Api\Models\ModelInterface $model
      * @return $this
      */
-    public function setModel(\Mickeyhead7\Api\Models\ModelInterface $model)
+    public function setModel(ModelInterface $model)
     {
         $this->model = $model;
 

@@ -46,10 +46,16 @@ abstract class ResourceAbstract
 
         // Set the resource adapter
         $this->adapter = $adapter;
+
+        //dd($this->adapter->isConnected());
+
+        if (!$this->adapter->isConnected()) {
+            $this->adapter->connect();
+        }
+
         $this->adapter
             ->setModel($model)
-            ->setScope()
-            ->connect();
+            ->setScope();
 
         // Get and store the data
         $this->setData();

@@ -2,7 +2,7 @@
 
 namespace Mickeyhead7\Api\Resource;
 
-use \League\Url\Url;
+use League\Uri\Schemes\Http as HttpUri;
 
 class Item extends ResourceAbstract
 {
@@ -29,8 +29,8 @@ class Item extends ResourceAbstract
     {
         if (!$path)
         {
-            $url = Url::createFromServer($_SERVER);
-            $path = $url->getPath()->toArray();
+            $url = HttpUri::createFromServer($_SERVER);
+            $path = $url->path->toArray();
 
             // Pop the last section of the path as this will be the current resource identifier
             array_pop($path);
@@ -41,5 +41,4 @@ class Item extends ResourceAbstract
 
         return $this;
     }
-
 }

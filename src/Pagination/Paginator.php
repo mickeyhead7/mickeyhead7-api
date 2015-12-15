@@ -2,8 +2,9 @@
 
 namespace Mickeyhead7\Api\Pagination;
 
+use \Mickeyhead7\Api\Resource\ResourceAbstract;
 use \Mickeyhead7\Rsvp\Pagination\PaginatorInterface;
-use \League\Url\Url;
+use \League\Uri\Schemes\Http as HttpUri;
 
 class Paginator implements PaginatorInterface
 {
@@ -11,11 +12,11 @@ class Paginator implements PaginatorInterface
     protected $resource;
 
     /**
-     * Constructor
+     * Paginator constructor.
      *
-     * @param \Mickeyhead7\Api\Resource\ResourceAbstract $resource
+     * @param ResourceAbstract $resource
      */
-    public function __construct(\Mickeyhead7\Api\Resource\ResourceAbstract $resource)
+    public function __construct(ResourceAbstract $resource)
     {
         $this->resource = $resource;
     }
@@ -37,7 +38,7 @@ class Paginator implements PaginatorInterface
      */
     public function getSelf()
     {
-        $url = Url::createFromServer($_SERVER);
+        $url = HttpUri::createFromServer($_SERVER);
 
         return (string) $url;
     }

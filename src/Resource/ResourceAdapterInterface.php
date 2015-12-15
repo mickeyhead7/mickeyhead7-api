@@ -6,6 +6,13 @@ interface ResourceAdapterInterface
 {
 
     /**
+     * Determines if a connection exists
+     *
+     * @return mixed
+     */
+    public function isConnected();
+
+    /**
      * Connect to a data storage source
      *
      * @return mixed

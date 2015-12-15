@@ -2,7 +2,7 @@
 
 namespace Mickeyhead7\Api\Resource;
 
-use \League\Url\Url;
+use League\Uri\Schemes\Http as HttpUri;
 
 class Collection extends ResourceAbstract
 {
@@ -37,7 +37,7 @@ class Collection extends ResourceAbstract
     {
         if (!$path)
         {
-            $url = Url::createFromServer($_SERVER);
+            $url = HttpUri::createFromServer($_SERVER);
             $path = (string) $url->getPath();
         }
 
@@ -110,8 +110,8 @@ class Collection extends ResourceAbstract
     protected function getFirst()
     {
         $scope = $this->getAdapter()->getScope();
-        $url = Url::createFromServer($_SERVER);
-        $query = $url->getQuery()->toArray();
+        $url = HttpUri::createFromServer($_SERVER);
+        $query = $url->query->toArray();
 
         // Use config defaults if not set in the request
         $page = $scope->get('page');
@@ -136,8 +136,8 @@ class Collection extends ResourceAbstract
     protected function getPrevious()
     {
         $scope = $this->getAdapter()->getScope();
-        $url = Url::createFromServer($_SERVER);
-        $query = $url->getQuery()->toArray();
+        $url = HttpUri::createFromServer($_SERVER);
+        $query = $url->query->toArray();
 
         // Use config defaults if not set in the request
         $page = $scope->get('page');
@@ -161,8 +161,8 @@ class Collection extends ResourceAbstract
     protected function getNext()
     {
         $scope = $this->getAdapter()->getScope();
-        $url = Url::createFromServer($_SERVER);
-        $query = $url->getQuery()->toArray();
+        $url = HttpUri::createFromServer($_SERVER);
+        $query = $url->query->toArray();
         $total = $this->getAdapter()->getTotal();
 
         // Use config defaults if not set in the request
@@ -188,8 +188,8 @@ class Collection extends ResourceAbstract
     protected function getLast()
     {
         $scope = $this->getAdapter()->getScope();
-        $url = Url::createFromServer($_SERVER);
-        $query = $url->getQuery()->toArray();
+        $url = HttpUri::createFromServer($_SERVER);
+        $query = $url->query->toArray();
         $total = $this->getAdapter()->getTotal();
 
         // Use config defaults if not set in the request

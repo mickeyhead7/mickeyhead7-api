@@ -29,7 +29,7 @@ class Factory
      */
     public function sanitize()
     {
-        $class = '\Mickeyhead7\Api\Filters\\'.ucfirst($this->type);
+        $class = __NAMESPACE__.'\\'.ucfirst($this->type);
         $filter = new $class();
 
         // Check for a valid filter
@@ -48,7 +48,7 @@ class Factory
      */
     public function validate()
     {
-        $class = '\Mickeyhead7\Api\Filters\\'.ucfirst($this->type);
+        $class = '\App\Filters\\'.ucfirst($this->type);
         $filter = new $class();
 
         // Check for a valid filter

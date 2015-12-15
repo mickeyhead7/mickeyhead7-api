@@ -2,6 +2,7 @@
 
 namespace Mickeyhead7\Api\Controllers;
 
+use \Illuminate\Support\Facades\Request;
 use \Mickeyhead7\Rsvp\Resource\Collection as ResourceCollection;
 use \Mickeyhead7\Rsvp\Resource\Item as ResourceItem;
 use \Mickeyhead7\Rsvp\IncludeParams;
@@ -10,7 +11,7 @@ use \Mickeyhead7\Api\Resource\Item;
 use \Mickeyhead7\Api\Pagination\Paginator;
 use \Mickeyhead7\Api\Response\NotFound as ResponseNotFound;
 
-class Resource extends Base
+class LumenResource extends LumenBase
 {
 
     /**
@@ -21,16 +22,16 @@ class Resource extends Base
     public function index()
     {
         // Create a new resource collection
-        $resource = new Collection($this->getModel(), $this->getResourceAdapter());
+        $resource = new Collection($this->model, $this->resource_adapter);
         $paginator = new Paginator($resource);
-        $collection = new ResourceCollection($resource->getData(), $this->getTransformer());
-        $collection->setIncludeParams(new IncludeParams($this->getIncludesScope()->getData()));
+        $collection = new ResourceCollection($resource->getData(), $this->transformer);
+        $collection->setIncludeParams(new IncludeParams($this->includes_scope->getData()));
         $collection->setPaginator($paginator);
         $collection->setMeta(['pagination' => $resource->getPagination()]);
-        $manager = $this->getResourceManager();
+        $manager = $this->resource_manager;
         $manager->setResource($collection);
 
-        return $this->getView()->setData($manager->createResponse())->send();
+        return $this->view->setData($manager->createResponse())->send();
     }
 
     /**
@@ -42,7 +43,7 @@ class Resource extends Base
     public function show($id)
     {
         // Create a new resource item
-        $resource = new Item($this->getModel(), $this->getResourceAdapter(), $id);
+        $resource = new Item($this->model, $this->resource_adapter, $id);
 
         // Resource not found
         if (!$resource->getData()) {
@@ -58,12 +59,26 @@ class Resource extends Base
         }
 
         // Process the resource
-        $item = new ResourceItem($resource->getData(), $this->getTransformer());
-        $item->setIncludeParams(new IncludeParams($this->getIncludesScope()->getData()));
-        $manager = $this->getResourceManager();
+        $item = new ResourceItem($resource->getData(), $this->transformer);
+        $item->setIncludeParams(new IncludeParams($this->includes_scope->getData()));
+        $manager = $this->resource_manager;
         $manager->setResource($item);
 
-        return $this->getView()->setData($manager->createResponse())->send();
+        return $this->view->setData($manager->createResponse())->send();
     }
 
+    public function create(Request $request)
+    {
+        $this->model->create($request->all());
+    }
+
+    public function update()
+    {
+
+    }
+
+    public function destroy()
+    {
+
+    }
 }

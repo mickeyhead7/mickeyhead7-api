@@ -1,6 +1,6 @@
 {
     "name": "mickeyhead7/api",
-    "description": "Core components for building an API.",
+    "description": "Simple abstract API handler.",
     "keywords": [
         "mickeyhead7",
         "api",
@@ -19,15 +19,12 @@
     ],
     "require": {
         "php": ">=5.3",
-        "league/container": "~1.0",
-        "league/route": "~1.0",
         "league/url": "~3.3",
-        "illuminate/database": "4.2.16",
         "symfony/http-foundation": "~2.6",
-        "mickeyhead7/rsvp": "v0.1.0",
-        "vlucas/phpdotenv": "~1.1"
+        "mickeyhead7/rsvp": "v0.1.0"
     },
     "require-dev": {
+        "codeception/codeception": "*"
     },
     "autoload": {
         "psr-4": {

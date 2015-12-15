@@ -6,6 +6,14 @@ class EloquentResourceAdapter extends ResourceAdapterAbstract implements Resourc
 {
 
     /**
+     * Determines if a connection exists
+     */
+    public function isConnected()
+    {
+        return \DB::connection()->getDatabaseName();
+    }
+
+    /**
      * Make the database connection
      *
      * @return $this
