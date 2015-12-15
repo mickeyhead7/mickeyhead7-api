@@ -2,7 +2,7 @@
 
 namespace Mickeyhead7\Api\Controllers;
 
-use \Illuminate\Support\Facades\Request;
+use \Illuminate\Http\Request;
 use \Mickeyhead7\Rsvp\Resource\Collection as ResourceCollection;
 use \Mickeyhead7\Rsvp\Resource\Item as ResourceItem;
 use \Mickeyhead7\Rsvp\IncludeParams;
