@@ -31,7 +31,7 @@ class LumenResource extends LumenBase
         $manager = $this->resource_manager;
         $manager->setResource($collection);
 
-        return $this->view->setData($manager->createResponse())->send();
+        return $this->view->setData($manager->createResponse());
     }
 
     /**
@@ -64,7 +64,7 @@ class LumenResource extends LumenBase
         $manager = $this->resource_manager;
         $manager->setResource($item);
 
-        return $this->view->setData($manager->createResponse())->send();
+        return $this->view->setData($manager->createResponse());
     }
 
     public function create(Request $request)
