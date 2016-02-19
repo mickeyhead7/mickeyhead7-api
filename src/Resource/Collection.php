@@ -2,6 +2,7 @@
 
 namespace Mickeyhead7\Api\Resource;
 
+use League\Uri\Components\Query;
 use League\Uri\Schemes\Http as HttpUri;
 
 class Collection extends ResourceAbstract
@@ -110,19 +111,18 @@ class Collection extends ResourceAbstract
     protected function getFirst()
     {
         $scope = $this->getAdapter()->getScope();
-        $url = HttpUri::createFromServer($_SERVER);
-        $query = $url->query->toArray();
+        $uri = HttpUri::createFromServer($_SERVER);
+        $query = new Query($uri->getQuery());
 
         // Use config defaults if not set in the request
         $page = $scope->get('page');
 
         // First
         if ($page > 1) {
-            $url->setPath($this->getPath());
-            $query['page'] = 1;
-            $url->setQuery($query);
+            $update_query = $query->merge('page=1');
+            $new_uri = $uri->withQuery($update_query->__toString());
 
-            return (string) $url;
+            return $new_uri->__toString();
         }
 
         return null;
@@ -136,18 +136,17 @@ class Collection extends ResourceAbstract
     protected function getPrevious()
     {
         $scope = $this->getAdapter()->getScope();
-        $url = HttpUri::createFromServer($_SERVER);
-        $query = $url->query->toArray();
+        $uri = HttpUri::createFromServer($_SERVER);
+        $query = new Query($uri->getQuery());
 
         // Use config defaults if not set in the request
         $page = $scope->get('page');
 
         if ($page > 1) {
-            $url->setPath($this->getPath());
-            $query['page'] = $page - 1;
-            $url->setQuery($query);
+            $update_query = $query->merge('page='.($page - 1));
+            $new_uri = $uri->withQuery($update_query->__toString());
 
-            return (string) $url;
+            return $new_uri->__toString();
         }
 
         return null;
@@ -161,8 +160,8 @@ class Collection extends ResourceAbstract
     protected function getNext()
     {
         $scope = $this->getAdapter()->getScope();
-        $url = HttpUri::createFromServer($_SERVER);
-        $query = $url->query->toArray();
+        $uri = HttpUri::createFromServer($_SERVER);
+        $query = new Query($uri->getQuery());
         $total = $this->getAdapter()->getTotal();
 
         // Use config defaults if not set in the request
@@ -170,11 +169,10 @@ class Collection extends ResourceAbstract
         $limit = $scope->get('limit');
 
         if ($page < ceil($total / $limit)) {
-            $url->setPath($this->getPath());
-            $query['page'] = $page + 1;
-            $url->setQuery($query);
+            $update_query = $query->merge('page='.($page + 1));
+            $new_uri = $uri->withQuery($update_query->__toString());
 
-            return (string) $url;
+            return $new_uri->__toString();
         }
 
         return null;
@@ -188,8 +186,8 @@ class Collection extends ResourceAbstract
     protected function getLast()
     {
         $scope = $this->getAdapter()->getScope();
-        $url = HttpUri::createFromServer($_SERVER);
-        $query = $url->query->toArray();
+        $uri = HttpUri::createFromServer($_SERVER);
+        $query = new Query($uri->getQuery());
         $total = $this->getAdapter()->getTotal();
 
         // Use config defaults if not set in the request
@@ -197,11 +195,10 @@ class Collection extends ResourceAbstract
         $limit = $scope->get('limit');
 
         if ($page < ceil($total / $limit)) {
-            $url->setPath($this->getPath());
-            $query['page'] = (int) ceil($total / $limit);
-            $url->setQuery($query);
+            $update_query = $query->merge('page='.((int) ceil($total / $limit)));
+            $new_uri = $uri->withQuery($update_query->__toString());
 
-            return (string) $url;
+            return $new_uri->__toString();
         }
 
         return null;
