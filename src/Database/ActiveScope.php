@@ -2,9 +2,10 @@
 
 namespace Mickeyhead7\Api\Database;
 
-use \Illuminate\Database\Query\Builder as BaseBuilder;
+use \Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Builder;
 use \Illuminate\Database\Eloquent\ScopeInterface;
+use \Illuminate\Database\Query\Builder as BaseBuilder;
 
 class ActiveScope implements ScopeInterface
 {
@@ -14,7 +15,7 @@ class ActiveScope implements ScopeInterface
      *
      * @param Builder $builder
      */
-    public function apply(Builder $builder)
+    public function apply(Builder $builder, Model $model)
     {
         $column = $builder->getModel()->getQualifiedActiveColumn();
         $builder->where($column, '=', 1);
